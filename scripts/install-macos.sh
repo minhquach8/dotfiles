@@ -30,7 +30,7 @@ link_path() {
   echo "Linked: $target_path -> $source_path"
 }
 
-echo "Installing Linux dotfiles from: $DOTFILES_DIR"
+echo "Installing macOS dotfiles from: $DOTFILES_DIR"
 
 link_path "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 link_path "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
@@ -38,5 +38,5 @@ link_path "$DOTFILES_DIR/shell/.zshrc.macos" "$HOME/.zshrc"
 link_path "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 link_path "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 
-echo "Linux dotfiles installed."
+echo "macOS dotfiles installed."
 echo "Restart your shell or run: exec zsh"
