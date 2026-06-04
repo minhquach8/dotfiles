@@ -1,4 +1,4 @@
-# Minh's Development Dotfiles
+# My Development Dotfiles
 
 This repository stores my personal development environment configuration.
 
