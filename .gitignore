@@ -1,0 +1,15 @@
+.DS_Store
+*.swp
+*.swo
+*.bak
+
+.nvimlog
+
+.env
+.env.*
+
+node_modules/
+
+.dotfiles-backup/
+
+*.log
