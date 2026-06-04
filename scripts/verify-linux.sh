@@ -44,6 +44,26 @@ check_command nvim
 
 echo
 
+if [ -d "$HOME/.oh-my-zsh" ]; then
+    print_ok "oh-my-zsh installed"
+else
+    print_missing "oh-my-zsh missing"
+fi
+
+if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
+    print_ok "zsh-autosuggestions installed"
+else
+    print_missing "zsh-autosuggestions missing"
+fi
+
+if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
+    print_ok "zsh-syntax-highlighting installed"
+else
+    print_missing "zsh-syntax-highlighting missing"
+fi
+
+echo
+
 check_symlink "$HOME/.zshrc"
 check_symlink "$HOME/.tmux.conf"
 check_symlink "$HOME/.config/nvim"
