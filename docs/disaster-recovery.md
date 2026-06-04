@@ -31,25 +31,27 @@ cd dotfiles
 
 ### 3. Install Dependencies
 
-Linux:
+#### Linux
 
 ```bash
 ./scripts/bootstrap-linux.sh
 ```
 
-macOS:
+#### macOS
 
-Install required packages manually or through Homebrew.
+```bash
+./scripts/bootstrap-macos.sh
+```
 
 ### 4. Install Configuration
 
-Linux:
+#### Linux
 
 ```bash
 ./scripts/install-linux.sh
 ```
 
-macOS:
+#### macOS
 
 ```bash
 ./scripts/install-macos.sh
@@ -63,10 +65,16 @@ exec zsh
 
 ### 6. Verify Environment
 
-Linux:
+#### Linux
 
 ```bash
 ./scripts/verify-linux.sh
+```
+
+#### macOS
+
+```bash
+./scripts/verify-macos.sh
 ```
 
 ## Success Criteria
@@ -88,6 +96,49 @@ The following configurations should be active:
 - Git aliases
 - Zsh configuration
 
+## Expected Recovery Flow
+
+### Linux
+
+```bash
+git clone <repository>
+
+cd dotfiles
+
+./scripts/bootstrap-linux.sh
+
+./scripts/install-linux.sh
+
+exec zsh
+
+./scripts/verify-linux.sh
 ```
 
+### macOS
+
+```bash
+git clone <repository>
+
+cd dotfiles
+
+./scripts/bootstrap-macos.sh
+
+./scripts/install-macos.sh
+
+exec zsh
+
+./scripts/verify-macos.sh
 ```
+
+## Recovery Goal
+
+A new machine should be able to recover:
+
+- Shell configuration
+- Git configuration
+- tmux configuration
+- Neovim configuration
+- Starship prompt
+- Development workflow
+
+without requiring manual recollection of previous setup steps.

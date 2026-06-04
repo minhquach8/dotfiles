@@ -5,31 +5,21 @@
 Role:
 
 - Primary development workstation
-- Source of truth for dotfiles
+- Main daily development environment
 
-Key Tools:
+Validation Status:
 
-- Neovim
-- tmux
-- Starship
-- Oh My Zsh
-- Conda
-- Docker
-- NVM
-- pnpm
+- install-macos.sh tested
+- bootstrap-macos.sh added
+- verify-macos.sh added
+- dotfiles deployment supported
 
 ### Linux 96
 
 Role:
 
 - Shared development and research server
-- Validation environment for Linux compatibility
-
-Key Principles:
-
-- Local-first installation
-- Minimise system-wide changes
-- Avoid impacting other users
+- Linux compatibility validation environment
 
 Validation Status:
 
@@ -37,7 +27,3 @@ Validation Status:
 - install-linux.sh tested
 - verify-linux.sh tested
 - dotfiles deployment successful
-
-```
-
-```

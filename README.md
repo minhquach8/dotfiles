@@ -38,9 +38,11 @@ tmux/
 
 scripts/
 ├── bootstrap-linux.sh
+├── bootstrap-macos.sh
 ├── install-linux.sh
 ├── install-macos.sh
-└── verify-linux.sh
+├── verify-linux.sh
+└── verify-macos.sh
 ```
 
 ## Supported Platforms
@@ -78,7 +80,10 @@ git clone <repository>
 
 cd dotfiles
 
+./scripts/bootstrap-macos.sh
 ./scripts/install-macos.sh
+exec zsh
+./scripts/verify-macos.sh
 
 exec zsh
 ```
@@ -109,7 +114,3 @@ Checks:
 - dependencies.md
 - workstation-overview.md
 - disaster-recovery.md
-
-```
-
-```

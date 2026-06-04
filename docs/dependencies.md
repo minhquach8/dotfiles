@@ -76,6 +76,8 @@ docker compose version
 
 ## Bootstrap Order
 
+### Linux
+
 ```bash
 git clone <dotfiles>
 
@@ -88,4 +90,20 @@ cd dotfiles
 exec zsh
 
 ./scripts/verify-linux.sh
+```
+
+### macOS
+
+```bash
+git clone <dotfiles>
+
+cd dotfiles
+
+./scripts/bootstrap-macos.sh
+
+./scripts/install-macos.sh
+
+exec zsh
+
+./scripts/verify-macos.sh
 ```

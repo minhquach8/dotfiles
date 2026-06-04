@@ -68,6 +68,7 @@ check_symlink "$HOME/.zshrc"
 check_symlink "$HOME/.tmux.conf"
 check_symlink "$HOME/.config/nvim"
 check_symlink "$HOME/.config/starship.toml"
+check_symlink "$HOME/.gitconfig"
 
 echo
 echo "Verification completed"
