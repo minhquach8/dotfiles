@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "$OSTYPE" != linux* ]]; then
-    echo "This script is intended for Linux only."
+if [[ "$OSTYPE" != darwin* ]]; then
+    echo "This script is intended for macOS only."
     exit 1
 fi
 
@@ -34,7 +34,7 @@ echo "Installing Linux dotfiles from: $DOTFILES_DIR"
 
 link_path "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 link_path "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
-link_path "$DOTFILES_DIR/shell/.zshrc.linux" "$HOME/.zshrc"
+link_path "$DOTFILES_DIR/shell/.zshrc.macos" "$HOME/.zshrc"
 link_path "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 link_path "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 
