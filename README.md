@@ -2,21 +2,21 @@
 
 Personal development environment repository used across macOS workstations and Linux servers.
 
-## Goals
+## Philosophy
 
-- Reproducible development environment
-- Local-first installation on shared Linux systems
-- Consistent Neovim workflow
-- Consistent tmux workflow
-- Shared shell and terminal experience
-- Fast workstation recovery
+Configuration should live in Git.
+
+A new machine should be recoverable through documented and repeatable steps rather than relying on memory.
+
+For shared Linux servers, always prefer user-space and local installations before considering system-wide changes.
 
 ## Repository Structure
 
 ```text
 docs/
 ├── dependencies.md
-└── workstation-overview.md
+├── workstation-overview.md
+└── disaster-recovery.md
 
 git/
 └── .gitconfig
@@ -39,6 +39,7 @@ tmux/
 scripts/
 ├── bootstrap-linux.sh
 ├── install-linux.sh
+├── install-macos.sh
 └── verify-linux.sh
 ```
 
@@ -46,34 +47,15 @@ scripts/
 
 ### macOS
 
-Primary workstation environment.
-
-Includes:
-
-- Neovim
-- tmux
-- zsh
-- Oh My Zsh
-- Starship
-- Conda
-- Git
-- fzf
-- NVM
-- pnpm
+Primary development workstation.
 
 ### Linux
 
-User-space development environment intended for shared research and university servers.
+Shared research servers and development machines.
 
-Principles:
+Local-first installation is preferred whenever possible.
 
-- Prefer local installation under `$HOME`
-- Avoid system-wide changes whenever possible
-- Minimise conflicts with other users
-
-## Installation Workflow
-
-### Linux
+## Linux Setup
 
 ```bash
 git clone <repository>
@@ -89,9 +71,27 @@ exec zsh
 ./scripts/verify-linux.sh
 ```
 
+## macOS Setup
+
+```bash
+git clone <repository>
+
+cd dotfiles
+
+./scripts/install-macos.sh
+
+exec zsh
+```
+
 ## Verification
 
-The verification script checks:
+Linux verification:
+
+```bash
+./scripts/verify-linux.sh
+```
+
+Checks:
 
 - git
 - zsh
@@ -102,19 +102,14 @@ The verification script checks:
 - Oh My Zsh
 - zsh-autosuggestions
 - zsh-syntax-highlighting
-
-and validates the expected symlink structure.
+- dotfiles symlinks
 
 ## Documentation
 
-- `docs/workstation-overview.md`
-  - Hardware and workstation inventory
+- dependencies.md
+- workstation-overview.md
+- disaster-recovery.md
 
-- `docs/dependencies.md`
-  - External tools and package dependencies
+```
 
-## Philosophy
-
-Configuration should live in Git.
-
-A new machine should be recoverable through documented and repeatable steps rather than manual memory.
+```

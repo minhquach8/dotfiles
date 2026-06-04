@@ -1,62 +1,43 @@
-# Workstation Overview
+## Current Status
 
-This repository defines my reproducible development environment.
+### macOS
 
-## Core principle
+Role:
 
-The dotfiles repository is the source of truth. Individual machines should be treated as replaceable.
+- Primary development workstation
+- Source of truth for dotfiles
 
-## Target machines
-
-- macOS workstation
-- Linux personal workstation
-- Linux shared server
-
-## Current golden environment
-
-The current reference environment is my MacBook Pro.
-
-## Shell
-
-- zsh
-- Oh My Zsh
-- Starship prompt
-
-## Prompt theme
-
-- Starship
-- Gruvbox Dark palette
-- Nerd Font symbols
-
-## Editor
+Key Tools:
 
 - Neovim
-- Catppuccin Mocha colour scheme
-- Telescope
-- Oil.nvim
-- LSP
-- Conform.nvim
-- Gitsigns
-- Trouble.nvim
-- Comment.nvim
-- Treesitter
-- DAP and DAP UI
-
-## Terminal workflow
-
-- iTerm2 on macOS
 - tmux
-- vim-tmux-navigator
-- Neovim
+- Starship
+- Oh My Zsh
+- Conda
+- Docker
+- NVM
+- pnpm
 
-## Shared-server rule
+### Linux 96
 
-On shared Linux servers, prefer user-local installation first:
+Role:
 
-- ~/.local/bin
-- ~/.config
-- ~/.nvm
-- ~/.cargo
-- ~/miniconda3
+- Shared development and research server
+- Validation environment for Linux compatibility
 
-Avoid global installation unless there is no practical local alternative.
+Key Principles:
+
+- Local-first installation
+- Minimise system-wide changes
+- Avoid impacting other users
+
+Validation Status:
+
+- bootstrap-linux.sh tested
+- install-linux.sh tested
+- verify-linux.sh tested
+- dotfiles deployment successful
+
+```
+
+```
