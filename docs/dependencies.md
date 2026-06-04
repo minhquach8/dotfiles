@@ -1,66 +1,91 @@
-# Dependencies
+# Environment Dependencies
 
-## Linux
+This document records external dependencies used by the development environment. These tools are not fully contained within the dotfiles repository and may need to be installed separately on a new machine.
 
-### Required
+## Core Terminal Environment
 
-- git
-- curl
-- zsh
-- tmux
-- neovim
-- starship
-- uv
+| Tool                    | Purpose               |
+| ----------------------- | --------------------- |
+| zsh                     | Primary shell         |
+| oh-my-zsh               | Shell framework       |
+| zsh-autosuggestions     | Command suggestions   |
+| zsh-syntax-highlighting | Syntax highlighting   |
+| starship                | Cross-platform prompt |
+| tmux                    | Terminal multiplexer  |
+| fzf                     | Fuzzy finder          |
 
-### Oh My Zsh
+## Editor Environment
 
-Required by:
+| Tool       | Purpose           |
+| ---------- | ----------------- |
+| Neovim     | Primary editor    |
+| lazy.nvim  | Plugin manager    |
+| Treesitter | Syntax parsing    |
+| Mason      | LSP installer     |
+| nvim-dap   | Debugging support |
 
-- shell/.zshrc.linux
-- shell/.zshrc.macos
+## Development Tools
 
-Repository:
+| Tool           | Purpose                       |
+| -------------- | ----------------------------- |
+| Git            | Version control               |
+| uv             | Python package manager        |
+| Conda          | Python environment manager    |
+| Docker         | Containers                    |
+| Docker Compose | Multi-container orchestration |
 
-- https://github.com/ohmyzsh/ohmyzsh
+## JavaScript Environment
 
-### Oh My Zsh Plugins
+| Tool    | Purpose                    |
+| ------- | -------------------------- |
+| nvm     | Node.js version management |
+| Node.js | JavaScript runtime         |
+| pnpm    | Package manager            |
 
-#### zsh-autosuggestions
+## macOS Specific
 
-Required by:
+| Tool     | Purpose           |
+| -------- | ----------------- |
+| Homebrew | Package manager   |
+| iTerm2   | Terminal emulator |
 
-- shell/.zshrc.linux
-- shell/.zshrc.macos
+## Linux Specific
 
-Repository:
+| Tool                           | Purpose           |
+| ------------------------------ | ----------------- |
+| apt                            | Package manager   |
+| GNOME Terminal / XFCE Terminal | Terminal emulator |
 
-- https://github.com/zsh-users/zsh-autosuggestions
+## Verification Commands
 
-#### zsh-syntax-highlighting
+```bash
+git --version
+zsh --version
+tmux -V
+starship --version
+uv --version
+nvim --version
 
-Required by:
+node --version
+pnpm --version
+nvm --version
 
-- shell/.zshrc.linux
-- shell/.zshrc.macos
+docker --version
+docker compose version
+```
 
-Repository:
+## Bootstrap Order
 
-- https://github.com/zsh-users/zsh-syntax-highlighting
+```bash
+git clone <dotfiles>
 
-### Starship
+cd dotfiles
 
-Required by:
+./scripts/bootstrap-linux.sh
 
-- starship/starship.toml
-- shell/.zshrc.linux
-- shell/.zshrc.macos
+./scripts/install-linux.sh
 
-### Neovim
+exec zsh
 
-Required by:
-
-- nvim/
-
-Plugin manager:
-
-- lazy.nvim
+./scripts/verify-linux.sh
+```
