@@ -1,0 +1,13 @@
+# Midnight Research — macOS Desktop
+# No services are automatically started by this file.
+
+tap "nikitabobko/tap"
+tap "felixkratz/formulae"
+
+cask "aerospace"
+cask "ghostty"
+cask "raycast"
+cask "font-jetbrains-mono-nerd-font"
+
+brew "sketchybar"
+brew "borders"

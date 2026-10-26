@@ -1,109 +1,115 @@
-# Environment Dependencies
+# Dependency Management
 
-This document records external dependencies used by the development environment. These tools are not fully contained within the dotfiles repository and may need to be installed separately on a new machine.
+## Purpose
 
-## Core Terminal Environment
+This document defines how software dependencies are
+selected, installed and maintained for Midnight Research.
 
-| Tool                    | Purpose               |
-| ----------------------- | --------------------- |
-| zsh                     | Primary shell         |
-| oh-my-zsh               | Shell framework       |
-| zsh-autosuggestions     | Command suggestions   |
-| zsh-syntax-highlighting | Syntax highlighting   |
-| starship                | Cross-platform prompt |
-| tmux                    | Terminal multiplexer  |
-| fzf                     | Fuzzy finder          |
+The Brewfiles describe desired packages, not a complete
+snapshot of all software installed on the machine.
 
-## Editor Environment
+## Homebrew Profiles
 
-| Tool       | Purpose           |
-| ---------- | ----------------- |
-| Neovim     | Primary editor    |
-| lazy.nvim  | Plugin manager    |
-| Treesitter | Syntax parsing    |
-| Mason      | LSP installer     |
-| nvim-dap   | Debugging support |
+| Profile | File | Purpose |
+|---|---|---|
+| Core | brew/Brewfile.core | Development fundamentals |
+| Desktop | brew/Brewfile.desktop | macOS desktop workflow |
+| Research | brew/Brewfile.research | Research and publishing tools |
+| Optional | brew/Brewfile.optional | Specialised utilities |
 
-## Development Tools
+Core and Desktop form the proposed default macOS setup.
 
-| Tool           | Purpose                       |
-| -------------- | ----------------------------- |
-| Git            | Version control               |
-| uv             | Python package manager        |
-| Conda          | Python environment manager    |
-| Docker         | Containers                    |
-| Docker Compose | Multi-container orchestration |
+Research and Optional require separate selection.
 
-## JavaScript Environment
+## Bootstrap Python
 
-| Tool    | Purpose                    |
-| ------- | -------------------------- |
-| nvm     | Node.js version management |
-| Node.js | JavaScript runtime         |
-| pnpm    | Package manager            |
+The Core profile explicitly requests python@3.14.
 
-## macOS Specific
+This provides a predictable Python minor version for
+the current workstation bootstrap baseline.
 
-| Tool     | Purpose           |
-| -------- | ----------------- |
-| Homebrew | Package manager   |
-| iTerm2   | Terminal emulator |
+Use python3.14 when selecting that interpreter
+explicitly. Do not assume that python3 always points
+to the same minor version on every machine.
 
-## Linux Specific
+Research projects may use other Python versions
+through Conda, uv or virtual environments.
 
-| Tool                           | Purpose           |
-| ------------------------------ | ----------------- |
-| apt                            | Package manager   |
-| GNOME Terminal / XFCE Terminal | Terminal emulator |
+Do not modify existing project environments during
+workstation bootstrap.
 
-## Verification Commands
+## Inspect Dependencies
 
-```bash
-git --version
-zsh --version
-tmux -V
-starship --version
-uv --version
-nvim --version
+From the repository:
 
-node --version
-pnpm --version
-nvm --version
+    ./scripts/check-brewfiles.sh
 
-docker --version
-docker compose version
-```
+This lists profiles and checks installation status.
 
-## Bootstrap Order
+A missing dependency is a report, not permission
+to install software automatically.
 
-### Linux
+## Installing a Profile
 
-```bash
-git clone <dotfiles>
+Installation must be performed only after reviewing
+the profile and approving its dependencies.
 
-cd dotfiles
+Example for the Core profile:
 
-./scripts/bootstrap-linux.sh
+    brew bundle install --no-upgrade --file=brew/Brewfile.core
 
-./scripts/install-linux.sh
+Do not run this automatically during inventory work.
 
-exec zsh
+## Package Management Policy
 
-./scripts/verify-linux.sh
-```
+- Do not automatically uninstall unrelated packages.
+- Do not automatically upgrade the entire system.
+- Do not enable database services during desktop setup.
+- Do not run automatic Homebrew cleanup.
+- Review dependencies before installation.
+- Keep machine-specific tools optional.
 
-### macOS
+## Version Reproducibility
 
-```bash
-git clone <dotfiles>
+Homebrew generally tracks available formula versions.
+Brewfiles do not provide exact version locking.
 
-cd dotfiles
+Where exact versions are required, record them
+separately and document compatible alternatives.
 
-./scripts/bootstrap-macos.sh
+## Other Dependency Managers
 
-./scripts/install-macos.sh
+The complete environment may additionally require:
 
-exec zsh
+- Conda for selected Python environments.
+- nvm for Node.js versions.
+- pnpm for JavaScript development.
+- Neovim's plugin manager.
+- macOS Accessibility permissions.
+- Raycast settings restored separately.
 
-./scripts/verify-macos.sh
-```
+These are not yet fully managed by the Brewfiles.
+
+## Pending Audit
+
+Further inventory work must establish ownership
+and installation methods for:
+
+- Firefox
+- Visual Studio Code
+- Miniconda
+- PostgreSQL
+- TeX distribution
+- Other historical research applications
+
+Do not assume a tool should be uninstalled merely
+because it is absent from the Brewfiles.
+
+## Current Status
+
+The initial profiles are proposed configuration.
+They require validation against installed packages
+and testing on a clean macOS environment.
+
+See setup-macos.md once the bootstrap workflow
+is implemented.

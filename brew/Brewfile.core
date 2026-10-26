@@ -1,0 +1,13 @@
+# Midnight Research — Core Development
+# Required for the default development environment.
+
+brew "git"
+brew "python@3.14"
+brew "neovim"
+brew "tmux"
+brew "starship"
+brew "fzf"
+brew "ripgrep"
+brew "fd"
+brew "uv"
+brew "bat"

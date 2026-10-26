@@ -1,0 +1,10 @@
+# Midnight Research — Research Utilities
+# Install only when these tools are required.
+
+brew "pandoc"
+brew "graphviz"
+brew "poppler"
+brew "imagemagick"
+brew "tectonic"
+brew "latexdiff"
+brew "portaudio"

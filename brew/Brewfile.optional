@@ -1,0 +1,8 @@
+# Midnight Research — Optional Tools
+# Not part of the default installation.
+
+brew "mysql"
+brew "qemu"
+brew "nasm"
+brew "llama.cpp"
+brew "cmake"

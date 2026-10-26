@@ -75,18 +75,30 @@ exec zsh
 
 ## macOS Setup
 
-```bash
-git clone <repository>
+Dotfiles v2 is being developed and verified.
 
-cd dotfiles
+Start with the [macOS Setup Guide](docs/setup-macos.md).
 
-./scripts/bootstrap-macos.sh
-./scripts/install-macos.sh
-exec zsh
-./scripts/verify-macos.sh
+For inspection on an existing Mac:
 
-exec zsh
-```
+    ./scripts/bootstrap-macos-v2.sh plan core desktop
+    ./scripts/manage-macos.sh plan
+
+Do not run the historical macOS installer as part
+of the v2 migration.
+
+The new installation procedure is not yet certified
+for complete clean-machine provisioning.
+
+## Documentation
+
+See the [Documentation Hub](docs/README.md) for:
+
+- Daily user guide
+- Keyboard shortcuts and commands
+- Deployment and recovery procedures
+- Dependency profiles
+- System architecture and inventory
 
 ## Verification
 
