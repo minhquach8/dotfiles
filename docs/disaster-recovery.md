@@ -80,6 +80,9 @@ stored under assets/wallpapers/midnight-research/.
 Wallpaper assignments must currently be restored
 through macOS System Settings.
 
+For a structured Raycast and macOS personal-state recovery procedure,
+see personal-recovery.md.
+
 ### 7. Restore Application Settings
 
 Manual work may still be required for:

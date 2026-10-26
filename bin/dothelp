@@ -32,6 +32,7 @@ entries=(
   "Architecture|docs/architecture-v2.md"
   "Dependencies|docs/dependencies.md"
   "Wallpaper & Displays|docs/wallpapers.md"
+  "Raycast & Personal Recovery|docs/personal-recovery.md"
   "Disaster Recovery|docs/disaster-recovery.md"
   "Neovim Cheatsheet|nvim/CheatSheet.md"
   "Neovim README|nvim/README.md"

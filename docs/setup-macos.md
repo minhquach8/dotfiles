@@ -112,6 +112,9 @@ Node.js environments during bootstrap.
 These issues must be resolved before a clean-machine
 setup can be declared complete.
 
+For Raycast exports, Hyper Key, login items and privacy permissions,
+see personal-recovery.md.
+
 ## 7. Desktop Permissions
 
 Application installation alone does not reproduce
