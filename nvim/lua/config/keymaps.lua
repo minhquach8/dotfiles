@@ -7,13 +7,13 @@ local map = vim.keymap.set
 
 -- Save / quit
 map("n", "<leader>w", "<cmd>write<cr>", { desc = "Write buffer" })
-map("n", "<leader>q", "<cmd>quit<cr>",  { desc = "Quit window" })
+map("n", "<leader>q", "<cmd>quit<cr>", { desc = "Quit window" })
 
--- Window navigation
-map("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
+-- Seamless navigation between Neovim splits and tmux panes
+map("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>", { desc = "Navigate left" })
+map("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", { desc = "Navigate down" })
+map("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", { desc = "Navigate up" })
+map("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", { desc = "Navigate right" })
 
 -- Clear search highlight
 map("n", "<leader><space>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })

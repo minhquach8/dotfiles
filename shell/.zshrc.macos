@@ -1,6 +1,9 @@
 # Prevent duplicate PATH entries across shell initialisation.
 typeset -U PATH path
 
+# User-local commands, including dothelp and research-projects.
+export PATH="$HOME/.local/bin:$PATH"
+
 # -------------------------------------------------
 # Homebrew
 # -------------------------------------------------

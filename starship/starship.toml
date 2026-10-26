@@ -29,8 +29,7 @@ $time\
 [ ](fg:color_bg1)\
 $line_break$character"""
 
-palette = 'gruvbox_dark'
-
+palette = 'midnight_research'
 [palettes.gruvbox_dark]
 color_fg0 = '#fbf1c7'
 color_bg1 = '#3c3836'
@@ -179,3 +178,30 @@ vimcmd_symbol = '[](bold fg:color_green)'
 vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
 vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+
+# Tokyo Night Storm — Research Workstation
+# Muted Powerline colours for a dark desktop.
+
+[palettes.tokyo_night_storm]
+color_fg0 = '#c0caf5'
+color_bg1 = '#292e42'
+color_bg3 = '#414868'
+color_blue = '#364a72'
+color_aqua = '#305f6f'
+color_green = '#9ece6a'
+color_orange = '#57446e'
+color_purple = '#bb9af7'
+color_red = '#f7768e'
+color_yellow = '#4a5372'
+
+[palettes.midnight_research]
+color_fg0 = '#c0caf5'
+color_bg1 = '#292e42'
+color_bg3 = '#3b4261'
+color_blue = '#344f7e'
+color_aqua = '#2f6475'
+color_green = '#9ece6a'
+color_orange = '#394b72'
+color_purple = '#bb9af7'
+color_red = '#f7768e'
+color_yellow = '#3b567a'

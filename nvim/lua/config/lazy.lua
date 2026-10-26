@@ -29,15 +29,23 @@ require("lazy").setup({
 	},
 
 	----------------------------------------------------------------
-	-- Colourscheme: Catppuccin
+	-- Colourscheme: Tokyo Night Storm
 	----------------------------------------------------------------
 	{
-		"catppuccin/nvim",
+		"folke/tokyonight.nvim",
+		lazy = false,
 		priority = 1000,
 		config = function()
 			vim.o.background = "dark"
-			vim.cmd("colorscheme catppuccin-mocha")
-			-- Make the ColorColumn visually match the cursorline
+
+			require("tokyonight").setup({
+				style = "storm",
+				transparent = false,
+			})
+
+			vim.cmd("colorscheme tokyonight-storm")
+
+			-- Keep ColorColumn consistent with the cursor line
 			vim.api.nvim_set_hl(0, "ColorColumn", { link = "CursorLine" })
 		end,
 	},
@@ -51,7 +59,7 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "everforest",
+					theme = "tokyonight",
 					icons_enabled = true,
 					component_separators = "|",
 					section_separators = "",
