@@ -13,6 +13,7 @@ maintaining and rebuilding the workstation.
 | Understand the system design | [Architecture](architecture-v2.md) |
 | Review dependencies | [Dependencies](dependencies.md) |
 | Protect secrets and credentials | [Security](security.md) |
+| Deploy managed configuration | [Deployment Guide](deployment.md) |
 | Recover the workstation | [Disaster Recovery](disaster-recovery.md) |
 | Find Neovim shortcuts | [Neovim Cheatsheet](../nvim/CheatSheet.md) |
 
