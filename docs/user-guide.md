@@ -54,7 +54,10 @@ Current implementation locations:
 - ~/.local/bin/research-projects-v2
 - ~/.config/raycast/scripts/research-projects.sh
 
-These implementations require consolidation in v2.
+The Git-managed launcher is available at
+~/.local/bin/research-projects.
+The historical research-projects-v2 copy has not
+been approved for deletion.
 
 ## 4. Managing Windows with AeroSpace
 
@@ -69,8 +72,9 @@ These implementations require consolidation in v2.
 | Toggle floating | Alt + Shift + Space |
 | Open Ghostty | Alt + Enter |
 
-Status: historical configuration, pending verification
-against the active AeroSpace configuration.
+Status: bindings verified in the Git-managed
+AeroSpace configuration. Individual shortcuts should
+still be checked during clean-machine recovery.
 
 ## 5. Using tmux
 
@@ -136,8 +140,8 @@ For customised mappings, read:
 | JankyBorders | ~/.config/borders |
 | Raycast scripts | ~/.config/raycast/scripts |
 
-The first five were verified as dotfiles symlinks
-on 26 October 2026.
+All 16 managed deployment targets were verified as
+Git-managed symlinks on 26 October 2026.
 
 ## 8. Changing a Configuration
 
@@ -161,12 +165,13 @@ Or open the documentation hub:
 
     docs/README.md
 
-## 10. Known Desktop Issue
+## 10. Desktop Layout
 
-On 26 October 2026, external-monitor screenshots
-showed SketchyBar overlapping window content.
+The SketchyBar overlap was resolved and verified
+on 26 October 2026.
 
-The root cause is not yet confirmed.
+AeroSpace uses a top gap of 44 on external Philips
+monitors and 12 on the built-in Retina display.
 
-This must be resolved and tested on the external
-monitor before desktop setup is considered complete.
+See docs/wallpapers.md for the display layout
+and Midnight Research wallpaper assets.

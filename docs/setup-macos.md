@@ -105,6 +105,10 @@ new bootstrap profiles.
 
 Certain paths are specific to the existing machine.
 
+See node-toolchain.md for NVM, Node.js and pnpm recovery.
+Do not automatically install pnpm or replace existing
+Node.js environments during bootstrap.
+
 These issues must be resolved before a clean-machine
 setup can be declared complete.
 

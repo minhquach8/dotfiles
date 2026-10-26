@@ -2,8 +2,9 @@
 
 Use this page when you forget a command or shortcut.
 
-Custom shortcuts below were previously configured.
-They require live verification during v2 migration.
+The AeroSpace and tmux bindings are represented in
+Git-managed configuration. Raycast personal shortcuts
+require manual verification during machine recovery.
 
 ## Raycast
 
@@ -62,9 +63,11 @@ See nvim/CheatSheet.md for customised mappings.
 
 ## Documentation
 
-Run from ~/dotfiles:
+From a fresh login shell:
 
-    ./bin/dothelp
+    dothelp
+
+Alternatively, run ~/dotfiles/bin/dothelp.
 
 ## Important Configuration Locations
 

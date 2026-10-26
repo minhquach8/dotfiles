@@ -12,6 +12,7 @@ maintaining and rebuilding the workstation.
 | Find installed components and configurations | [Inventory](inventory.md) |
 | Understand the system design | [Architecture](architecture-v2.md) |
 | Review dependencies | [Dependencies](dependencies.md) |
+| Restore Node.js and pnpm | [Node Toolchain](node-toolchain.md) |
 | Protect secrets and credentials | [Security](security.md) |
 | Set up a new Mac | [macOS Setup Guide](setup-macos.md) |
 | Restore wallpaper and monitor layout | [Wallpaper](wallpapers.md) |
