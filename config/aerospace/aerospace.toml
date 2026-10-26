@@ -107,7 +107,10 @@ gaps.inner.horizontal = 12
 gaps.inner.vertical = 12
 gaps.outer.left = 12
 gaps.outer.bottom = 12
-gaps.outer.top = 12
+gaps.outer.top = [
+  { monitor."^built-in retina display$" = 12 },
+  44,
+]
 gaps.outer.right = 12
 
 # 'main' binding mode declaration

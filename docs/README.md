@@ -14,6 +14,7 @@ maintaining and rebuilding the workstation.
 | Review dependencies | [Dependencies](dependencies.md) |
 | Protect secrets and credentials | [Security](security.md) |
 | Set up a new Mac | [macOS Setup Guide](setup-macos.md) |
+| Restore wallpaper and monitor layout | [Wallpaper](wallpapers.md) |
 | Deploy managed configuration | [Deployment Guide](deployment.md) |
 | Recover the workstation | [Disaster Recovery](disaster-recovery.md) |
 | Find Neovim shortcuts | [Neovim Cheatsheet](../nvim/CheatSheet.md) |
