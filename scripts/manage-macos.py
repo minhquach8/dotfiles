@@ -3,6 +3,8 @@
 
 import argparse
 import filecmp
+import hashlib
+import stat
 import json
 import os
 import sys
@@ -190,6 +192,36 @@ def save_journal(transaction, journal):
             os.unlink(temporary)
 
 
+def original_fingerprint(path):
+    """Record content and permissions before deployment."""
+    digest = hashlib.sha256()
+
+    with path.open("rb") as handle:
+        for chunk in iter(
+            lambda: handle.read(1024 * 1024),
+            b"",
+        ):
+            digest.update(chunk)
+
+    return {
+        "sha256": digest.hexdigest(),
+        "mode": stat.S_IMODE(path.stat().st_mode),
+    }
+
+
+def original_matches(path, entry):
+    """Recognise an original file restored before journal update."""
+    expected = entry.get("original")
+
+    if not isinstance(expected, dict):
+        return False
+
+    if path.is_symlink() or not path.is_file():
+        return False
+
+    return original_fingerprint(path) == expected
+
+
 def restore_transaction(transaction, journal):
     # Check all restoration targets before changing any.
     for entry in reversed(journal["entries"]):
@@ -216,13 +248,10 @@ def restore_transaction(transaction, journal):
                     f"Rollback conflict: {target}"
                 )
 
-        elif (
-            entry["phase"] == "done"
-            or managed
-            or not exists(target)
-        ):
+        elif not original_matches(target, entry):
             raise RuntimeError(
-                f"Rollback backup missing: {backup}"
+                "Rollback backup missing and original "
+                f"cannot be verified: {backup}"
             )
 
     # Restore in reverse deployment order.
@@ -334,6 +363,16 @@ def apply_configuration(entries, home, replace_different):
         )
         return 2
 
+    # Fingerprint existing regular files before any migration.
+    for entry in changes:
+        if entry["status"] in (
+            "MATCHING_COPY",
+            "DIFFERENT_COPY",
+        ):
+            entry["original"] = original_fingerprint(
+                Path(entry["target"])
+            )
+
     backup_root = home / ".dotfiles-backup" / "v2"
     backup_root.mkdir(
         parents=True,
@@ -372,6 +411,14 @@ def apply_configuration(entries, home, replace_different):
             if classify(source, target) != entry["status"]:
                 raise RuntimeError(
                     f"Target changed during apply: {target}"
+                )
+
+            if (
+                entry.get("original") is not None
+                and not original_matches(target, entry)
+            ):
+                raise RuntimeError(
+                    f"Target content changed during apply: {target}"
                 )
 
             entry["phase"] = "pending"

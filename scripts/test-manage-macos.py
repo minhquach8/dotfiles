@@ -173,7 +173,36 @@ def main():
         conflict.unlink()
         conflict.symlink_to(source)
 
-        # Restore the original configuration.
+        # Simulate an interrupted rollback: the original
+        # has been restored but the journal still says "done".
+        transaction, journal = (
+            manager.find_active_transaction(home)
+        )
+
+        clock_entry = next(
+            entry
+            for entry in journal["entries"]
+            if entry["label"] == "Bar Clock"
+        )
+
+        clock_target = Path(clock_entry["target"])
+        clock_backup = transaction / clock_entry["backup"]
+
+        assert clock_entry["phase"] == "done"
+        assert clock_target.is_symlink()
+        assert clock_backup.is_file()
+
+        clock_target.unlink()
+        os.rename(clock_backup, clock_target)
+
+        assert not clock_backup.exists()
+        assert (
+            clock_target.read_bytes()
+            == originals["Bar Clock"]
+        )
+
+        # Restore the remaining targets and recognise
+        # the already restored original.
         output = run(
             repo,
             home,
@@ -298,6 +327,7 @@ def main():
         print("PASS: Clean-HOME idempotency")
         print("PASS: Clean-HOME rollback")
 
+        print("PASS: Interrupted rollback recovery")
         print("PASS: Read-only planning")
         print("PASS: Different-file protection")
         print("PASS: Transactional apply")
