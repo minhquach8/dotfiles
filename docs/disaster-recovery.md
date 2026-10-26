@@ -1,144 +1,177 @@
 # Disaster Recovery
 
-This document describes how to rebuild a workstation from scratch.
+## Purpose
 
-## Scenario
+Recover the development workstation without relying
+on remembered manual configuration steps.
 
-Examples:
+The repository restores managed configuration, but
+does not contain personal data, credentials or complete
+application state.
 
-- New MacBook purchased
-- Linux workstation replaced
-- SSD failure
-- OS reinstallation
+## macOS Recovery — Dotfiles v2
 
-## Recovery Procedure
+Status: live migration verified on 26 October 2026.
+Complete clean-machine provisioning is not yet verified.
 
-### 1. Install Git
+### 1. Prepare macOS
 
-Verify:
+Install Apple Command Line Tools and Homebrew using
+their official instructions.
 
-```bash
-git --version
-```
+Check:
 
-### 2. Clone Dotfiles
+    xcode-select -p
+    brew --version
 
-```bash
-git clone <repository>
+### 2. Clone the Repository
 
-cd dotfiles
-```
+    git clone https://github.com/minhquach8/dotfiles.git
+    cd dotfiles
 
-### 3. Install Dependencies
+### 3. Inspect Dependencies
 
-#### Linux
+    ./scripts/bootstrap-macos-v2.sh plan core desktop
 
-```bash
-./scripts/bootstrap-linux.sh
-```
+    ./scripts/bootstrap-macos-v2.sh check core desktop
 
-#### macOS
+Read docs/dependencies.md before approving installation.
 
-```bash
-./scripts/bootstrap-macos.sh
-```
+Do not install or upgrade dependencies automatically
+during recovery without reviewing the proposed changes.
 
-### 4. Install Configuration
+### 4. Review Configuration Deployment
 
-#### Linux
+    ./scripts/manage-macos.sh plan
 
-```bash
-./scripts/install-linux.sh
-```
+Read docs/deployment.md before applying changes.
 
-#### macOS
+On a new workstation, existing files and application
+settings must be examined before replacing them.
 
-```bash
-./scripts/install-macos.sh
-```
+Installation requires explicit authorisation:
 
-### 5. Restart Shell
+    ./scripts/manage-macos.sh apply --yes
 
-```bash
-exec zsh
-```
+This command is an example of the approved write mode,
+not an instruction to run automatically.
 
-### 6. Verify Environment
+Do not use --replace-different without reviewing
+every existing differing configuration.
 
-#### Linux
+### 5. Verify Managed Configuration
 
-```bash
-./scripts/verify-linux.sh
-```
+    ./scripts/manage-macos.sh verify
 
-#### macOS
+Expected result for a complete deployment:
 
-```bash
-./scripts/verify-macos.sh
-```
+    MANAGED: 16
+    VERIFY: PASS
 
-## Success Criteria
+This validates symlinks, not application behaviour.
 
-The following tools should be available:
+### 6. Restore Wallpaper
 
-- git
-- zsh
-- tmux
-- starship
-- uv
-- Neovim
+See docs/wallpapers.md.
 
-The following configurations should be active:
+The source artwork and monitor-specific images are
+stored under assets/wallpapers/midnight-research/.
 
-- tmux
-- Neovim
-- Starship
-- Git aliases
-- Zsh configuration
+Wallpaper assignments must currently be restored
+through macOS System Settings.
 
-## Expected Recovery Flow
+### 7. Restore Application Settings
 
-### Linux
+Manual work may still be required for:
 
-```bash
-git clone <repository>
+- Raycast shortcuts, Hyper Key and preferences
+- Accessibility and Automation permissions
+- Display arrangement
+- Application login items
+- Oh My Zsh and shell plugins
+- NVM, pnpm and Conda
+- Database applications and local data
 
-cd dotfiles
+Do not copy credentials or private application
+databases into the public dotfiles repository.
 
-./scripts/bootstrap-linux.sh
+### 8. Functional Verification
 
-./scripts/install-linux.sh
+Inspect:
 
-exec zsh
-
-./scripts/verify-linux.sh
-```
-
-### macOS
-
-```bash
-git clone <repository>
-
-cd dotfiles
-
-./scripts/bootstrap-macos.sh
-
-./scripts/install-macos.sh
-
-exec zsh
-
-./scripts/verify-macos.sh
-```
-
-## Recovery Goal
-
-A new machine should be able to recover:
-
-- Shell configuration
-- Git configuration
-- tmux configuration
-- Neovim configuration
+- Ghostty terminal operation
+- AeroSpace window navigation and workspace switching
+- SketchyBar visibility and window clearance
+- Neovim and tmux integration
 - Starship prompt
-- Development workflow
+- Raycast Script Commands
+- dothelp and research-projects
+- Wallpaper placement across all displays
 
-without requiring manual recollection of previous setup steps.
+The reference setup uses two Philips 1920x1080
+displays and a built-in MacBook Retina display.
+
+### 9. Recovery Backups
+
+The CP7 migration retained its original files in:
+
+    ~/.dotfiles-backup/v2/txn-9e5o55el
+
+An independent snapshot is also retained under:
+
+    ~/Documents/MacSetup-Recovery/CP7-pre-deployment-20261026-143904-490248
+
+These paths refer to the original workstation.
+They will not automatically exist on a replacement Mac.
+
+Do not delete these recovery copies while they may
+still be required.
+
+Local backups alone do not protect against complete
+disk loss. An encrypted off-device backup is still
+required for disaster resilience.
+
+### 10. Rollback
+
+Read docs/deployment.md.
+
+The transaction manager supports:
+
+    ./scripts/manage-macos.sh rollback --yes
+
+Do not execute rollback merely to test it on the
+working desktop. It changes live symlink targets.
+
+Review the active transaction, affected files and
+recovery snapshot before approving a rollback.
+
+## Linux
+
+The Linux configuration is maintained separately.
+
+The macOS v2 migration does not authorise changes
+to existing Linux hosts or their installation process.
+
+Inspect the Linux-specific scripts and documentation
+before running them on a server.
+
+## Historical macOS Scripts
+
+The legacy scripts remain in the repository for
+historical reference:
+
+- scripts/bootstrap-macos.sh
+- scripts/install-macos.sh
+
+DO NOT use these legacy scripts for the macOS v2
+recovery procedure.
+
+## Remaining Validation
+
+The following are not yet certified:
+
+- End-to-end provisioning on a completely new Mac
+- Full Raycast settings recovery
+- Automatic macOS privacy-permission restoration
+- External/off-device recovery
+- Full application-level disaster recovery

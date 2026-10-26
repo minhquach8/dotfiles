@@ -1,6 +1,6 @@
 # macOS Configuration Deployment
 
-Status: Dotfiles v2 installer foundation.
+Status: live macOS migration completed on 26 October 2026.
 
 This guide describes configuration deployment only.
 It does not yet perform complete workstation provisioning,
@@ -68,9 +68,9 @@ permissions or keyboard shortcuts work correctly.
 
 ## Apply Configuration
 
-IMPORTANT: Do not use apply on the current workstation
-until a live migration has been separately reviewed
-and approved.
+IMPORTANT: The current workstation is already deployed.
+Do not rerun write operations just to verify its state.
+Use plan or verify for read-only inspection.
 
 After reviewing the plan:
 
@@ -131,9 +131,10 @@ should perform no new deployment.
 
 ## Important Limitations
 
-The current implementation has been tested in
-disposable HOME directories but has not yet been
-used to migrate the live macOS desktop.
+The implementation has been tested in disposable
+HOME directories and used to migrate the live
+macOS desktop. All 16 managed targets passed
+verification on 26 October 2026.
 
 Additional work is required for:
 
@@ -162,6 +163,31 @@ Run:
 
 The tests use disposable HOME and repository
 directories and do not install live configuration.
+
+## Completed Live Migration
+
+Checkpoint: CP7
+Commit: 4216e25
+
+Live deployment result:
+
+- 16 of 16 targets managed
+- 10 original configuration files preserved
+- 1 missing command installed through a symlink
+- Independent recovery snapshot verified
+
+Active transaction retained for possible rollback:
+
+    ~/.dotfiles-backup/v2/txn-9e5o55el
+
+Independent snapshot:
+
+    ~/Documents/MacSetup-Recovery/CP7-pre-deployment-20261026-143904-490248
+
+The retained transaction is intentional.
+
+Do not roll it back or delete it as part of routine
+maintenance. Review recovery consequences first.
 
 ## Current Workstation
 

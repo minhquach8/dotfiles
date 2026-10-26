@@ -4,8 +4,11 @@
 
 Dotfiles v2 is under active development.
 
-The Homebrew profiles and configuration manager have
-passed initial checks on the existing workstation.
+The Homebrew profiles have passed checks on the
+existing workstation.
+
+The configuration manager has successfully migrated
+and verified all 16 targets on the live desktop.
 
 A complete clean-machine provisioning test has not
 yet been performed.

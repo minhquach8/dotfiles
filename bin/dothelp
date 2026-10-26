@@ -1,7 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Resolve symlinks before locating the repository.
+script_file="${BASH_SOURCE[0]}"
+
+for (( link_count=0; link_count<16; link_count++ )); do
+  [[ -L "$script_file" ]] || break
+
+  script_dir="$(cd -P "$(dirname "$script_file")" && pwd)"
+  link_target="$(readlink "$script_file")"
+
+  case "$link_target" in
+    /*) script_file="$link_target" ;;
+    *) script_file="$script_dir/$link_target" ;;
+  esac
+done
+
+if [[ -L "$script_file" ]]; then
+  echo "ERROR: Unable to resolve dothelp symlink." >&2
+  exit 1
+fi
+
+repo_dir="$(cd -P "$(dirname "$script_file")/.." && pwd)"
 
 entries=(
   "Start Here|docs/README.md"

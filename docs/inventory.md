@@ -19,16 +19,17 @@ Architecture checkpoint:
 
     f6fa31c
 
-Five pre-existing uncommitted changes:
+The five previously uncommitted Neovim, tmux and
+Starship changes were consolidated in CP6:
 
-- nvim/lazy-lock.json
-- nvim/lua/config/keymaps.lua
-- nvim/lua/config/lazy.lua
-- starship/starship.toml
-- tmux/.tmux.conf
+    ffdcd16
 
-These files were included in the verified
-local recovery checkpoint.
+The desktop deployment completed in CP7.
+
+The multi-monitor configuration and wallpaper
+assets were committed in CP8:
+
+    d8018d7
 
 ## 3. Git-Managed Configuration
 
@@ -41,7 +42,7 @@ local recovery checkpoint.
 | Linux Zsh | shell/.zshrc.linux |
 | Git | git/.gitconfig |
 
-## 4. Desktop Configuration to Migrate
+## 4. Desktop Configuration — Migrated
 
 | Component | Current location |
 |---|---|
@@ -89,14 +90,23 @@ Relevant files:
 
 None of these items is approved for deletion.
 
-## 8. Known Issues
+## 8. Current Issues and Limitations
 
-- External monitor: status bar overlaps windows.
-- Desktop configuration is not fully Git-managed.
-- Raycast recovery is incomplete.
-- Installation scripts are not fully idempotent.
-- Verification scripts need stronger checks.
-- Some shell paths are machine-specific.
+Resolved on 26 October 2026:
+
+- External-monitor SketchyBar overlap
+- Desktop migration to 16 Git-managed targets
+- Duplicate PATH entries in the tested Zsh environment
+- Uncommitted Neovim, tmux and Starship changes
+
+Remaining:
+
+- Raycast personal settings recovery
+- Full clean-machine bootstrap validation
+- Machine-specific shell dependency provisioning
+- Application-level recovery verification
+- Off-device encrypted backup
+- Installer concurrency and interruption hardening
 
 ## 9. Migration Status
 
