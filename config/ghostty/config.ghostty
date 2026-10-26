@@ -1,0 +1,21 @@
+# Theme
+theme = TokyoNight Storm
+
+# Font
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 14
+
+# Appearance
+background-opacity = 1
+macos-titlebar-style = transparent
+
+# Window spacing
+window-padding-x = 10
+window-padding-y = 10
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Usability
+mouse-hide-while-typing = true

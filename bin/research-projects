@@ -1,0 +1,287 @@
+#!/usr/bin/env python3
+
+"""Keyboard-first project picker for Ghostty and tmux."""
+
+import hashlib
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+
+HOME = Path.home()
+
+ROOTS = [
+    HOME / "Projects",
+    HOME / "projects",
+    HOME / "Documents",
+]
+
+EXCLUDED = {
+    ".git",
+    ".venv",
+    ".cache",
+    "node_modules",
+    "__pycache__",
+    "site-packages",
+}
+
+
+def tmux(*args, check=True):
+    return subprocess.run(
+        ["tmux", *args],
+        text=True,
+        capture_output=True,
+        check=check,
+    )
+
+
+def session_name(path):
+    # Preserve the naming convention of launcher v1.
+    stem = re.sub(
+        r"[^A-Za-z0-9_-]+",
+        "_",
+        path.name + "\n",
+    )[:28]
+
+    digest = hashlib.sha256(
+        str(path).encode()
+    ).hexdigest()[:8]
+
+    return f"research_{stem}_{digest}"
+
+
+def existing_sessions():
+    result = tmux(
+        "list-sessions",
+        "-F",
+        "#{session_name}|#{session_attached}|#{session_activity}",
+        check=False,
+    )
+
+    sessions = {}
+
+    if result.returncode != 0:
+        return sessions
+
+    for line in result.stdout.splitlines():
+        fields = line.split("|", 2)
+
+        if len(fields) != 3:
+            continue
+
+        name, attached, activity = fields
+
+        sessions[name] = {
+            "attached": int(attached or 0),
+            "activity": int(activity or 0),
+        }
+
+    return sessions
+
+
+def discover_projects():
+    found = []
+
+    for root in ROOTS:
+        if not root.is_dir():
+            continue
+
+        for current, directories, files in os.walk(root):
+            path = Path(current)
+            depth = len(path.relative_to(root).parts)
+
+            if ".git" in directories or ".git" in files:
+                found.append(path)
+
+            directories[:] = [
+                name
+                for name in directories
+                if name not in EXCLUDED
+            ]
+
+            # Match the existing launcher's search depth.
+            if depth >= 4:
+                directories.clear()
+
+    if (HOME / "dotfiles").is_dir():
+        found.append(HOME / "dotfiles")
+
+    return found
+
+
+def project_state(path, sessions):
+    name = session_name(path)
+    info = sessions.get(name)
+
+    if info is None:
+        return 0, 0, name
+
+    priority = 2 if info["attached"] else 1
+    return priority, info["activity"], name
+
+
+def unique_projects(paths, sessions):
+    # Device and inode identify the actual directory.
+    # This handles symlinks and case-insensitive aliases.
+    unique = {}
+
+    for path in paths:
+        try:
+            metadata = path.stat()
+        except OSError:
+            continue
+
+        identity = (metadata.st_dev, metadata.st_ino)
+        candidate = project_state(path, sessions)
+
+        previous = unique.get(identity)
+
+        if previous is None:
+            unique[identity] = path
+            continue
+
+        if candidate[:2] > project_state(
+            previous, sessions
+        )[:2]:
+            unique[identity] = path
+
+    return list(unique.values())
+
+
+def choose_project(projects, sessions):
+    rows = []
+
+    for path in projects:
+        priority, activity, name = project_state(
+            path, sessions
+        )
+
+        state = {
+            2: "[ACTIVE]",
+            1: "[OPEN]",
+            0: "[NEW]",
+        }[priority]
+
+        display_path = str(path).replace(
+            str(HOME), "~", 1
+        )
+
+        rows.append({
+            "priority": priority,
+            "activity": activity,
+            "name": path.name,
+            "path": path,
+            "display": (
+                f"{state}\t"
+                f"{path.name}\t"
+                f"{display_path}\t"
+                f"{path}"
+            ),
+        })
+
+    rows.sort(
+        key=lambda row: (
+            -row["priority"],
+            -row["activity"],
+            row["name"].casefold(),
+        )
+    )
+
+    if not rows:
+        print("No projects found.")
+        return None
+
+    lines = "\n".join(
+        row["display"] for row in rows
+    ) + "\n"
+
+    result = subprocess.run(
+        [
+            "fzf",
+            "--height=100%",
+            "--layout=reverse",
+            "--border",
+            "--no-sort",
+            "--delimiter=\t",
+            "--with-nth=1,2,3",
+            "--nth=2,3",
+            "--prompt=Project > ",
+            "--header=ACTIVE: attached | OPEN: existing | NEW: not started",
+            "--color=bg:#1a1b26,bg+:#24283b,fg:#c0caf5,fg+:#c0caf5,hl:#7dcfff,hl+:#7aa2f7,prompt:#7dcfff,pointer:#7aa2f7,border:#414868",
+        ],
+        input=lines,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    if result.returncode != 0:
+        return None
+
+    # fzf returns the original row, including the hidden path.
+    selected = result.stdout.rstrip("\n")
+    path = selected.rpartition("\t")[2]
+
+    return Path(path) if path else None
+
+
+def open_project(path):
+    session = session_name(path)
+
+    exists = tmux(
+        "has-session",
+        "-t",
+        f"={session}",
+        check=False,
+    ).returncode == 0
+
+    if not exists:
+        tmux(
+            "new-session",
+            "-d",
+            "-s", session,
+            "-c", str(path),
+            "-n", "editor",
+        )
+
+        tmux(
+            "send-keys",
+            "-t", f"{session}:editor",
+            "nvim",
+            "Enter",
+        )
+
+        tmux(
+            "new-window",
+            "-d",
+            "-t", f"{session}:",
+            "-n", "shell",
+            "-c", str(path),
+        )
+
+        tmux(
+            "select-window",
+            "-t", f"{session}:editor",
+        )
+
+    tmux("switch-client", "-t", f"={session}")
+
+
+def main():
+    if not os.environ.get("TMUX"):
+        sys.exit("Run this launcher inside tmux.")
+
+    sessions = existing_sessions()
+    paths = discover_projects()
+    projects = unique_projects(paths, sessions)
+
+    selected = choose_project(projects, sessions)
+
+    if selected is not None:
+        open_project(selected)
+
+
+if __name__ == "__main__":
+    main()

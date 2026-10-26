@@ -1,0 +1,106 @@
+#!/bin/bash
+
+# Midnight Research — SketchyBar
+# Keyboard-first macOS workstation
+
+export PATH="/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+# Tokyo Night colour palette
+BG=0xff1a1b26
+SURFACE=0xff24283b
+ACTIVE=0xff364a72
+TEXT=0xffc0caf5
+MUTED=0xff9aa5ce
+BLUE=0xff7aa2f7
+CYAN=0xff7dcfff
+GREEN=0xff9ece6a
+
+FONT="JetBrainsMono Nerd Font Mono"
+
+# Global bar appearance
+sketchybar --bar \
+    position=top \
+    height=40 \
+    color=0x00000000 \
+    blur_radius=0 \
+    topmost=window \
+    sticky=on \
+    shadow=off \
+    padding_left=18 \
+    padding_right=18
+
+# Default item appearance
+sketchybar --default \
+    icon.font="$FONT:Medium:13.0" \
+    label.font="$FONT:Regular:13.0" \
+    icon.color="$TEXT" \
+    label.color="$TEXT" \
+    padding_left=6 \
+    padding_right=6 \
+    background.height=30 \
+    background.corner_radius=9 \
+    background.color="$SURFACE" \
+    background.drawing=on
+
+# AeroSpace workspace event
+sketchybar --add event aerospace_workspace_change
+
+# Create workspace indicators, initially hidden.
+# Only active or occupied workspaces will be displayed.
+for ws in $(aerospace list-workspaces --all); do
+    sketchybar --add item "space.$ws" left \
+        --set "space.$ws" \
+        icon="$ws" \
+        icon.padding_left=14 \
+        icon.padding_right=14 \
+        label.drawing=off \
+        drawing=off \
+        background.color="$SURFACE" \
+        click_script="aerospace workspace $ws"
+done
+
+# Workspace state synchronisation
+sketchybar --add item spaces.sync left \
+    --set spaces.sync \
+    drawing=off \
+    updates=on \
+    update_freq=10 \
+    script="$PLUGIN_DIR/workspaces.sh" \
+    --subscribe spaces.sync \
+    aerospace_workspace_change \
+    space_windows_change
+
+# Focused application
+sketchybar --add item front_app left \
+    --set front_app \
+    icon="󰀵" \
+    icon.color="$CYAN" \
+    label="Desktop" \
+    label.max_chars=24 \
+    background.color="$SURFACE" \
+    script="$PLUGIN_DIR/front_app.sh" \
+    --subscribe front_app front_app_switched
+
+# Date and time
+sketchybar --add item clock right \
+    --set clock \
+    icon="" \
+    icon.color="$BLUE" \
+    label="Time" \
+    update_freq=10 \
+    script="$PLUGIN_DIR/clock.sh"
+
+# Battery
+sketchybar --add item battery right \
+    --set battery \
+    icon="󰁹" \
+    icon.color="$GREEN" \
+    label="--%" \
+    update_freq=120 \
+    script="$PLUGIN_DIR/battery.sh" \
+    --subscribe battery system_woke power_source_change
+
+# Initialise every widget.
+sketchybar --update
