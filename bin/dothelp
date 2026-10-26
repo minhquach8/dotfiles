@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+entries=(
+  "Start Here|docs/README.md"
+  "User Guide|docs/user-guide.md"
+  "Quick Reference|docs/quick-reference.md"
+  "System Inventory|docs/inventory.md"
+  "Security Policy|docs/security.md"
+  "Architecture|docs/architecture-v2.md"
+  "Dependencies|docs/dependencies.md"
+  "Disaster Recovery|docs/disaster-recovery.md"
+  "Neovim Cheatsheet|nvim/CheatSheet.md"
+  "Neovim README|nvim/README.md"
+)
+
+available=()
+
+for entry in "${entries[@]}"; do
+  relative_file="${entry#*|}"
+
+  if [[ -f "$repo_dir/$relative_file" ]]; then
+    available+=("$entry")
+  fi
+done
+
+if [[ "${#available[@]}" -eq 0 ]]; then
+  echo "No documentation files found."
+  exit 1
+fi
+
+if ! command -v fzf >/dev/null 2>&1; then
+  echo "fzf is not installed."
+  echo "Available documentation:"
+
+  printf '%s\n' "${available[@]}"
+  exit 0
+fi
+
+selection="$(
+  printf '%s\n' "${available[@]}" |
+    fzf \
+      --delimiter='|' \
+      --with-nth=1 \
+      --prompt='Midnight Help > ' \
+      --height=75% \
+      --border
+)" || exit 0
+
+[[ -n "$selection" ]] || exit 0
+
+relative_file="${selection#*|}"
+target="$repo_dir/$relative_file"
+
+if [[ ! -f "$target" ]]; then
+  echo "Document not found: $target"
+  exit 1
+fi
+
+less "$target"
