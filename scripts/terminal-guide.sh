@@ -251,8 +251,10 @@ if selected="$(
             --nth=1,2 \
             --color="$colours" \
             --preview='bash "$HANDBOOK_LAUNCHER" --render {3} {4} {5}' \
-            --preview-window='right:65%:wrap' \
-            --header='ENTER: Read | ESC: Quit | Ctrl+/: Preview'
+            --preview-window='right,55%,wrap,<72(down,55%,border-top)' \
+            --bind='ctrl-/:toggle-preview' \
+            --bind='alt-p:change-preview-window(right,55%|down,55%|hidden)' \
+            --header='ENTER: Read | ESC: Quit | Ctrl+/: Preview | Alt+P: Layout'
 )"; then
 
     IFS=$'\t' read -r display section source line entry_type \
