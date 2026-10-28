@@ -48,7 +48,12 @@ dotfiles/
 │       ├── 03-navigation.md
 │       ├── 04-files-and-git.md
 │       ├── 05-troubleshooting.md
-│       └── 06-glow.md
+│       ├── 06-glow.md
+│       ├── 07-neovim.md
+│       ├── 08-python-conda-uv.md
+│       ├── 09-git-workflow.md
+│       ├── 10-ssh.md
+│       └── 11-gpu-monitoring.md
 └── scripts/
     ├── terminal-guide.sh
     └── handbook-index.py
