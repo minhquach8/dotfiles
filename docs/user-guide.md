@@ -207,3 +207,38 @@ The source file for the wrapper is `shell/.zshrc.macos`.
 
 For complete keyboard guidance, run `guide` and search
 for Yazi.
+
+## 12. Midnight Research Dashboard
+
+The `midnight` command opens a minimal, on-demand
+terminal dashboard.
+
+It is intended for macOS with Ghostty and tmux.
+
+The dashboard provides four actions:
+
+- Projects: open the existing tmux Project Picker.
+- Handbook: launch the searchable terminal guide.
+- Files: open Yazi in the current terminal pane.
+- System: display basic macOS system information.
+
+Use Up/Down to navigate, Enter to select and Esc to exit.
+
+Inside tmux, fzf displays the dashboard as a popup.
+The selected tool opens after the menu closes.
+
+Opening Projects may switch to another tmux session.
+Existing sessions are preserved.
+
+The Files action runs Yazi directly. To browse files
+and then change the current Zsh directory, use `y`
+instead.
+
+The dashboard does not start automatically, install
+background services or replace existing shortcuts.
+
+Source: `bin/midnight`
+Installed command: `~/.local/bin/midnight`
+
+The dashboard is macOS-specific. Linux workstations
+can continue using `guide` independently.

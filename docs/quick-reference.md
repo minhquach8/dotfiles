@@ -84,8 +84,24 @@ Run `guide` to search terminal commands, shortcuts and workflows.
 
 Run `dothelp` to browse MacSetup configuration documentation.
 
-In `guide`, use Alt + P to change the preview layout.
-Use Ctrl + / to toggle the preview.
+In `guide`, use Ctrl + G to switch the preview
+between right and bottom. Use Ctrl + O to toggle it.
+
+## Midnight Research Dashboard
+
+| Action | Command / Shortcut |
+|---|---|
+| Open dashboard | `midnight` |
+| Navigate menu | Up / Down |
+| Open selected tool | Enter |
+| Close dashboard | Esc |
+| Open projects | Projects |
+| Search documentation | Handbook |
+| Browse files | Files |
+| View Mac information | System |
+
+The dashboard is an optional macOS launcher.
+It does not replace `guide`, `y`, or Project Picker.
 
 ## Important Configuration Locations
 

@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Midnight Research Dashboard v0.1
+# Explicitly launched; no background services.
+
+show_preview() {
+    case "${1:-}" in
+        projects)
+            cat <<'TEXT'
+RESEARCH PROJECTS
+
+Find, open or resume a research
+project in tmux.
+
+Uses the existing Project Picker.
+
+Existing sessions are preserved.
+TEXT
+            ;;
+        handbook)
+            cat <<'TEXT'
+MIDNIGHT HANDBOOK
+
+Search terminal commands,
+keyboard shortcuts and workflows.
+
+fzf navigation + Glow previews.
+
+Command: guide
+TEXT
+            ;;
+        files)
+            cat <<'TEXT'
+FILE MANAGER
+
+Browse project files with Yazi.
+
+Preview:
+  - Markdown and source code
+  - Images and PDF documents
+
+For directory-aware navigation
+directly in Zsh, use: y
+TEXT
+            ;;
+        system)
+            printf 'MAC SYSTEM\n\n'
+            printf 'macOS: %s\n' \
+                "$(sw_vers -productVersion)"
+            printf 'Architecture: %s\n' \
+                "$(uname -m)"
+
+            memory="$(sysctl -n hw.memsize)"
+            awk -v bytes="$memory" \
+                'BEGIN { printf "Memory: %.0f GiB\n", bytes / 1073741824 }'
+
+            printf '\n'
+            uptime
+            ;;
+        *)
+            printf 'Select a dashboard item.\n'
+            ;;
+    esac
+}
+
+if [[ "${1:-}" == "--preview" ]]; then
+    show_preview "${2:-}"
+    exit 0
+fi
+
+if [[ "$(uname -s)" != "Darwin" ]]; then
+    echo "This dashboard prototype is intended for macOS."
+    exit 1
+fi
+
+self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+export MIDNIGHT_DASHBOARD="$self"
+
+colours='bg:#1a1b26,bg+:#24283b'
+colours+=',fg:#c0caf5,fg+:#c0caf5'
+colours+=',hl:#7dcfff,hl+:#7aa2f7'
+colours+=',prompt:#bb9af7,pointer:#7dcfff'
+colours+=',border:#414868,header:#7982a9'
+colours+=',label:#7aa2f7'
+
+menu="$(
+    printf '%s\n' \
+        $'projects\t01   Projects\tResearch sessions' \
+        $'handbook\t02   Handbook\tDocumentation and shortcuts' \
+        $'files\t03   Files\tYazi file manager' \
+        $'system\t04   System\tMac system information'
+)"
+
+selection="$(
+    printf '%s\n' "$menu" |
+        fzf \
+            --height=16 \
+            --tmux center,62%,30% \
+            --tmux center,62%,30% \
+            --layout=reverse \
+            --no-sort \
+            --info=hidden \
+            --border=rounded \
+            --border-label=' MIDNIGHT RESEARCH ' \
+            --padding=1 \
+            --delimiter=$'\t' \
+            --with-nth=2,3 \
+            --color="$colours" \
+            --prompt='Open > ' \
+            --pointer='▸' \
+            --preview='bash "$MIDNIGHT_DASHBOARD" --preview {1}' \
+            --preview-window='right,48%,wrap,<90(down,45%)' \
+            --header='ENTER: Open  |  ESC: Close'
+)" || exit 0
+
+action="${selection%%$'\t'*}"
+
+case "$action" in
+    projects)
+        if [[ -z "${TMUX:-}" ]]; then
+            echo "Project Picker requires an active tmux session."
+            exit 1
+        fi
+        "$HOME/.local/bin/research-projects"
+        ;;
+    handbook)
+        "$HOME/.local/bin/guide"
+        ;;
+    files)
+        yazi
+        ;;
+    system)
+        show_preview system
+        ;;
+esac

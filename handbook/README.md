@@ -54,7 +54,8 @@ dotfiles/
 │       ├── 09-git-workflow.md
 │       ├── 10-ssh.md
 │       ├── 11-gpu-monitoring.md
-│       └── 12-yazi.md
+│       ├── 12-yazi.md
+│       └── 13-midnight-dashboard.md
 └── scripts/
     ├── terminal-guide.sh
     └── handbook-index.py
@@ -190,7 +191,8 @@ own executable path.
 | Up / Down | Navigate search results |
 | Enter | Render the selected entry |
 | Esc | Leave the search interface |
-| Ctrl+/ | Toggle the preview pane |
+| Ctrl+O | Toggle the preview pane |
+| Ctrl+G | Switch preview between right and bottom |
 
 The interface displays the selected documentation using Glow.
 

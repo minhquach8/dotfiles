@@ -104,20 +104,27 @@ def test_clean_home():
             check=True,
         )
 
-        # Include the proposed, not-yet-committed dothelp fix.
-        shutil.copy2(
-            REPO / "bin/dothelp",
-            checkout / "bin/dothelp",
-        )
+        # Overlay local deployment changes onto the isolated clone.
+        # This includes the uncommitted dashboard prototype.
+        for relative_path in (
+            "bin/dothelp",
+            "bin/midnight",
+            "scripts/manage-macos.py",
+            "scripts/terminal-guide.sh",
+        ):
+            shutil.copy2(
+                REPO / relative_path,
+                checkout / relative_path,
+            )
 
-        manager = REPO / "scripts/manage-macos.py"
+        manager = checkout / "scripts/manage-macos.py"
 
         plan = run_manager(
             manager, checkout, home, "plan"
         )
         require(
-            "MISSING: 17" in plan,
-            "A clean HOME must have 17 missing targets.",
+            "MISSING: 18" in plan,
+            "A clean HOME must have 18 missing targets.",
         )
         print("PASS: Clean-HOME preflight")
 
@@ -142,10 +149,10 @@ def test_clean_home():
         )
         require(
             "VERIFY: PASS" in verification
-            and "MANAGED: 17" in verification,
+            and "MANAGED: 18" in verification,
             "Not all targets were deployed.",
         )
-        print("PASS: All 17 targets deployed")
+        print("PASS: All 18 targets deployed")
 
         # A symlink can exist while the linked command is broken.
         dothelp = home / ".local/bin/dothelp"
@@ -170,6 +177,30 @@ def test_clean_home():
             f"{result.stdout}\n{result.stderr}",
         )
         print("PASS: dothelp through installed symlink")
+
+        # Verify the dashboard launcher, not just its symlink.
+        dashboard = home / ".local/bin/midnight"
+
+        result = subprocess.run(
+            [str(dashboard), "--preview", "projects"],
+            env={
+                **os.environ,
+                "HOME": str(home),
+                "PATH": "/usr/bin:/bin",
+            },
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        require(
+            result.returncode == 0
+            and "RESEARCH PROJECTS" in result.stdout,
+            "Dashboard preview failed through installed symlink: "
+            + result.stdout + result.stderr,
+        )
+
+        print("PASS: midnight through installed symlink")
 
         repeated = run_manager(
             manager, checkout, home, "apply", "--yes"
@@ -207,6 +238,7 @@ def test_clean_home():
             ".local/bin/research-projects",
             ".local/bin/dothelp",
             ".local/bin/guide",
+            ".local/bin/midnight",
         ]
 
         for relative in manifest:
@@ -232,7 +264,7 @@ def test_clean_home():
             "Rollback journal state is incorrect.",
         )
 
-        print("PASS: All 17 targets rolled back")
+        print("PASS: All 18 targets rolled back")
         print("PASS: Recovery journal records rollback")
 
 
