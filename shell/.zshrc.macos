@@ -5,6 +5,12 @@ typeset -U PATH path
 export PATH="$HOME/.local/bin:$PATH"
 
 # -------------------------------------------------
+# Default terminal editor
+# -------------------------------------------------
+export EDITOR=nvim
+export VISUAL=nvim
+
+# -------------------------------------------------
 # Homebrew
 # -------------------------------------------------
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -93,4 +99,27 @@ app() {
   local chosen
   chosen=$(ls /Applications | grep '\.app$' | sed 's/\.app$//' | fzf)
   [ -n "$chosen" ] && open -a "$chosen"
+}
+
+# -------------------------------------------------
+# Yazi — directory-aware file manager
+# -------------------------------------------------
+y() {
+  local cwd_file destination="" yazi_status
+
+  cwd_file="$(mktemp -t yazi-cwd.XXXXXX)" || return 1
+
+  command yazi "$@" --cwd-file="$cwd_file"
+  yazi_status=$?
+
+  IFS= read -r -d '' destination < "$cwd_file" || true
+  command rm -f -- "$cwd_file"
+
+  if [[ -n "$destination" &&
+        -d "$destination" &&
+        "$destination" != "$PWD" ]]; then
+    builtin cd -- "$destination" || return 1
+  fi
+
+  return "$yazi_status"
 }

@@ -53,6 +53,20 @@ require manual verification during machine recovery.
 
 See nvim/CheatSheet.md for customised mappings.
 
+## Yazi
+
+| Action | Command / Shortcut |
+|---|---|
+| Open file manager | `y` |
+| Move up / down | `k` / `j` |
+| Parent / child directory | `h` / `l` |
+| Choose file opener | `O` |
+| Quit and change directory | `q` |
+| Quit without directory change | `Q` |
+| Help | `F1` |
+
+See handbook/topics/12-yazi.md for details.
+
 ## Git
 
 | Action | Command |

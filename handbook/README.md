@@ -6,8 +6,8 @@ Midnight Research development environment.
 The handbook provides searchable documentation for terminal
 commands, keyboard shortcuts and development workflows.
 
-It is designed for user-local installation on Linux, including
-shared servers where sudo access is unavailable.
+It runs on macOS and supports user-local Linux installation,
+including shared servers where sudo access is unavailable.
 
 ## 1. Overview
 
@@ -53,7 +53,8 @@ dotfiles/
 │       ├── 08-python-conda-uv.md
 │       ├── 09-git-workflow.md
 │       ├── 10-ssh.md
-│       └── 11-gpu-monitoring.md
+│       ├── 11-gpu-monitoring.md
+│       └── 12-yazi.md
 └── scripts/
     ├── terminal-guide.sh
     └── handbook-index.py
@@ -74,7 +75,7 @@ Required tools:
 - Python 3.9 or newer
 - fzf
 - Glow
-- GNU `readlink` and standard Linux command-line utilities
+- A `readlink` supporting `-f --` and standard shell utilities
 
 The required executables must be available through `PATH`.
 

@@ -12,6 +12,7 @@ macOS research and development workstation.
 | Ghostty | Terminal emulator |
 | tmux | Persistent terminal sessions |
 | Neovim | Code and text editor |
+| Yazi | Terminal file manager |
 | Starship | Shell prompt |
 | SketchyBar | Desktop status bar |
 | JankyBorders | Focused-window highlighting |
@@ -189,3 +190,20 @@ monitors and 12 on the built-in Retina display.
 
 See docs/wallpapers.md for the display layout
 and Midnight Research wallpaper assets.
+
+## 11. Using Yazi
+
+Run `y` to open the Yazi file manager with directory tracking.
+
+Navigate with `h`, `j`, `k` and `l`. Press `q` to return
+to Zsh in the selected directory, or `Q` to leave the
+original directory unchanged.
+
+Press `O` on a source file and choose Edit to open Neovim.
+
+New Zsh sessions configure `EDITOR=nvim` and `VISUAL=nvim`.
+
+The source file for the wrapper is `shell/.zshrc.macos`.
+
+For complete keyboard guidance, run `guide` and search
+for Yazi.
