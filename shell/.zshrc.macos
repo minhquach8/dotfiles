@@ -123,3 +123,27 @@ y() {
 
   return "$yazi_status"
 }
+
+# -------------------------------------------------
+# Midnight Research — Terminal Pet (optional)
+# -------------------------------------------------
+# Disabled by exporting TERMINAL_PET_DISABLE=1.
+# The original command line is never sent to the pet.
+
+if [[ -o interactive && "$OSTYPE" == darwin* &&
+      -z "${TERMINAL_PET_DISABLE:-}" ]]; then
+
+  terminal_pet_plugin="/opt/homebrew/opt/terminal-pet/share/terminal-pet/terminal-pet.plugin.zsh"
+
+  if [[ -r "$terminal_pet_plugin" ]]; then
+    source "$terminal_pet_plugin"
+
+    # Replace the vendor preexec callback with a privacy-safe
+    # event that does not expose the command or its arguments.
+    _terminal_pet_preexec() {
+      _terminal_pet_send "preexec command"
+    }
+  fi
+
+  unset terminal_pet_plugin
+fi
