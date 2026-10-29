@@ -71,6 +71,9 @@ been approved for deletion.
 | Move and follow window | Alt + Shift + number |
 | Toggle floating | Alt + Shift + Space |
 | Open Ghostty | Alt + Enter |
+| Focus previous/next monitor | Alt + Ctrl + H/L |
+| Move focused window between monitors | Alt + Ctrl + Shift + H/L |
+| Move entire workspace to next monitor | Alt + Shift + Tab |
 
 Status: bindings verified in the Git-managed
 AeroSpace configuration. Individual shortcuts should
@@ -140,8 +143,8 @@ For customised mappings, read:
 | JankyBorders | ~/.config/borders |
 | Raycast scripts | ~/.config/raycast/scripts |
 
-All 16 managed deployment targets were verified as
-Git-managed symlinks on 26 October 2026.
+All 17 managed deployment targets, including Guide,
+were verified on 29 October 2026.
 
 ## 8. Changing a Configuration
 
@@ -157,11 +160,22 @@ Git-managed symlinks on 26 October 2026.
 
 ## 9. Finding Help
 
-From the dotfiles repository:
+Two documentation tools are available.
 
-    ./bin/dothelp
+`guide` opens the interactive Midnight Research Handbook.
+It uses fzf for searching and Glow for Markdown previews.
+It can be launched from any directory, including inside tmux.
 
-Or open the documentation hub:
+`dothelp` opens the MacSetup documentation picker.
+
+The two commands serve different purposes and are
+maintained separately.
+
+The handbook source is located at:
+
+    handbook/README.md
+
+The MacSetup documentation hub is located at:
 
     docs/README.md
 

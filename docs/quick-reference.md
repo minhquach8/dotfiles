@@ -25,6 +25,9 @@ require manual verification during machine recovery.
 | Move and follow | Alt + Shift + number |
 | Toggle floating | Alt + Shift + Space |
 | Open Ghostty | Alt + Enter |
+| Focus previous/next monitor | Alt + Ctrl + H/L |
+| Move focused window between monitors | Alt + Ctrl + Shift + H/L |
+| Move entire workspace to next monitor | Alt + Shift + Tab |
 
 ## tmux
 
@@ -63,11 +66,12 @@ See nvim/CheatSheet.md for customised mappings.
 
 ## Documentation
 
-From a fresh login shell:
+Run `guide` to search terminal commands, shortcuts and workflows.
 
-    dothelp
+Run `dothelp` to browse MacSetup configuration documentation.
 
-Alternatively, run ~/dotfiles/bin/dothelp.
+In `guide`, use Alt + P to change the preview layout.
+Use Ctrl + / to toggle the preview.
 
 ## Important Configuration Locations
 

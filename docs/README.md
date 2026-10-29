@@ -9,6 +9,7 @@ maintaining and rebuilding the workstation.
 |---|---|
 | Learn how to use my workstation | [User Guide](user-guide.md) |
 | Find a shortcut or command | [Quick Reference](quick-reference.md) |
+| Search the interactive terminal handbook | [Midnight Research Handbook](../handbook/README.md) |
 | Find installed components and configurations | [Inventory](inventory.md) |
 | Understand the system design | [Architecture](architecture-v2.md) |
 | Review dependencies | [Dependencies](dependencies.md) |
@@ -23,11 +24,12 @@ maintaining and rebuilding the workstation.
 
 ## Quick Help
 
-From the repository, run:
+Run `dothelp` for MacSetup documentation.
 
-    ./bin/dothelp
+Run `guide` for the interactive terminal handbook,
+with searchable commands, shortcuts and Markdown previews.
 
-This opens a searchable documentation menu.
+Both commands are available from the shell.
 
 ## Documentation Status
 

@@ -62,6 +62,7 @@ MANIFEST = [
         ".local/bin/research-projects",
     ),
     ("dothelp", "bin/dothelp", ".local/bin/dothelp"),
+    ("Guide", "scripts/terminal-guide.sh", ".local/bin/guide"),
 ]
 
 

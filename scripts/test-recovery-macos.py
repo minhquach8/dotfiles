@@ -116,8 +116,8 @@ def test_clean_home():
             manager, checkout, home, "plan"
         )
         require(
-            "MISSING: 16" in plan,
-            "A clean HOME must have 16 missing targets.",
+            "MISSING: 17" in plan,
+            "A clean HOME must have 17 missing targets.",
         )
         print("PASS: Clean-HOME preflight")
 
@@ -142,10 +142,10 @@ def test_clean_home():
         )
         require(
             "VERIFY: PASS" in verification
-            and "MANAGED: 16" in verification,
+            and "MANAGED: 17" in verification,
             "Not all targets were deployed.",
         )
-        print("PASS: All 16 targets deployed")
+        print("PASS: All 17 targets deployed")
 
         # A symlink can exist while the linked command is broken.
         dothelp = home / ".local/bin/dothelp"
@@ -206,6 +206,7 @@ def test_clean_home():
             ".config/raycast/scripts/research-projects.sh",
             ".local/bin/research-projects",
             ".local/bin/dothelp",
+            ".local/bin/guide",
         ]
 
         for relative in manifest:
@@ -231,7 +232,7 @@ def test_clean_home():
             "Rollback journal state is incorrect.",
         )
 
-        print("PASS: All 16 targets rolled back")
+        print("PASS: All 17 targets rolled back")
         print("PASS: Recovery journal records rollback")
 
 
